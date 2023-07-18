@@ -1,20 +1,22 @@
 import React, { FC } from "react";
 import {
+  BtnNext,
   CloseButton,
-  CloseButtonIcon,
+  Icon,
   Message,
   Overlay,
   PopUpBox,
+  PopUpBoxText,
   PopupContainer,
   VoidPopUp,
-  voidPopUp,
 } from "./styles";
 
 interface CustomPopupProps {
   visible: boolean;
   type: "success" | "error";
-  correcao?: "";
+  correcao?: string;
   message: string;
+  nextButton: boolean;
   onClose: () => void;
 }
 
@@ -24,6 +26,7 @@ const CustomPopup: FC<CustomPopupProps> = ({
   message,
   onClose,
   correcao,
+  nextButton,
 }) => {
   if (!visible) {
     return null;
@@ -38,15 +41,42 @@ const CustomPopup: FC<CustomPopupProps> = ({
         <PopUpBox>
           <VoidPopUp />
           <CloseButton onPress={onClose}>
-            <CloseButtonIcon name="close" style={{ color: IconColor }} />
+            <Icon name="close" style={{ color: IconColor }} />
           </CloseButton>
         </PopUpBox>
-        <Message style={{ color: IconColor }}>{message}</Message>
-        {type === "success" ? (
-          <Message style={{ color: IconColor }}>Sugestões:</Message>
+
+        <PopUpBoxText>
+          {type === "success" ? (
+            <Icon name="checkmark-circle" style={{ color: IconColor }} />
+          ) : (
+            <Icon name="close-circle" style={{ color: "#DF432D" }} />
+          )}
+
+          <Message style={{ color: IconColor }}>{message}</Message>
+        </PopUpBoxText>
+
+        <VoidPopUp>
+          {type === "success" ? (
+            <Message style={{ color: IconColor }}>Sugestões:</Message>
+          ) : (
+            <></>
+          )}
+
+          {type === "success" ? (
+            <Message style={{ color: IconColor }}>{correcao}</Message>
+          ) : (
+            <></>
+          )}
+        </VoidPopUp>
+
+        {nextButton === true ? (
+          <BtnNext style={{ backgroundColor: "#028B4C" }}>
+            <Message style={{ color: "#ffffff" }}>Próxima</Message>
+          </BtnNext>
         ) : (
           <></>
         )}
+        
       </PopupContainer>
     </Overlay>
   );

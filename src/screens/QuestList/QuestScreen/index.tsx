@@ -99,7 +99,9 @@ const QuestScreen = () => {
             visible={showPopup}
             type={selectBtn !== Quest.gabarito ? "error" : "success"}
             message={selectBtn !== Quest.gabarito ? "Que pena você errou :(" : "Muito bem! Você acertou :)"}
+            correcao={Quest.correcao}
             onClose={() => setShowPopup(false)}
+            nextButton={false}
           />
       </Background>
     </Container>

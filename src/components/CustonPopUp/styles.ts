@@ -18,7 +18,8 @@ export const Overlay = styled.View`
   z-index: 9999;
 `;
 export const VoidPopUp = styled.View`
-  height: 2px;
+justify-content: center;
+width: 100%;
 `;
 
 export const PopUpBox = styled.View`
@@ -26,21 +27,37 @@ export const PopUpBox = styled.View`
   justify-content: space-between;
 `;
 
+export const PopUpBoxText = styled.View`
+    width: 100%;
+  flex-direction: row;
+`;
 export const PopupContainer = styled.View`
   width: 100%;
   min-height: ${ms(200)}px;
-
-  padding: ${ms(20)}px;
+    align-items: center;
+  padding: ${ms(20)}px ${ms(20)}px ${ms(50)}px ${ms(20)}px;
 `;
 
 export const Message = styled.Text`
   margin: ${ms(5)}px;
-  color: white;
   font-size: ${ms(18)}px;
+`;
+export const MessageCorrecao = styled.Text`
+  margin: ${ms(5)}px;
+  font-size: ${ms(15)}px;
 `;
 
 export const CloseButton = styled.TouchableOpacity``;
 
-export const CloseButtonIcon = styled(Ionicons)`
+export const Icon = styled(Ionicons)`
   font-size: ${ms(35)}px;
+`;
+
+export const BtnNext = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  border-radius: ${ms(10)}px;
+  height: ${ms(42)}px;
+  width: ${ms(200)}px;
+  margin: ${ms(20)}px;
 `;
