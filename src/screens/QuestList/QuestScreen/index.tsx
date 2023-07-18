@@ -19,6 +19,7 @@ import {
   Inter_400Regular,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
+import CustomPopup from "../../../components/CustonPopUp";
 
 export type ParamList = {
   Object: {
@@ -40,8 +41,7 @@ const QuestScreen = () => {
   } = useRoute<RouteProp<ParamList, "Object">>();
 
   const [selectBtn, setSelectBtn] = useState("");
-
-
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
 
   return (
@@ -54,7 +54,9 @@ const QuestScreen = () => {
               <ContentDesc style={{ fontFamily: "Inter_700Bold" }}>
                 {Quest.title}
               </ContentDesc>
-              <ContentDesc style={{ fontFamily: "Inter_400Regular" }}>{Quest.subTitle}</ContentDesc>
+              <ContentDesc style={{ fontFamily: "Inter_400Regular" }}>
+                {Quest.subTitle}
+              </ContentDesc>
             </ContentText>
             <ContentItem
               onPress={() => setSelectBtn("A")}
@@ -85,16 +87,20 @@ const QuestScreen = () => {
             </ContentItem>
           </ContentBox>
 
-          <BtnConfirm onPress={() => { 
-             if (selectBtn === Quest.gabarito) {
-              console.log('Resposta correta!');
-            }else {
-              console.log('Resposta incorreta!');
-            }
-          }}>
+          <BtnConfirm
+            onPress={() => setShowPopup(true)}
+          >
             <BtnText>Confirmar</BtnText>
           </BtnConfirm>
+
+         
         </Content>
+          <CustomPopup
+            visible={showPopup}
+            type={selectBtn !== Quest.gabarito ? "error" : "success"}
+            message={selectBtn !== Quest.gabarito ? "Que pena você errou :(" : "Muito bem! Você acertou :)"}
+            onClose={() => setShowPopup(false)}
+          />
       </Background>
     </Container>
   );

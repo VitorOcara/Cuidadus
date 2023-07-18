@@ -11,7 +11,7 @@ export const Container = styled.View`
 `;
 
 export const TextBody = styled.Text`
-  font-size: 20px;
+  font-size: ${ms(20)}px;
   color: ${theme.colors.azul_2};
 `;
 
@@ -26,8 +26,8 @@ export const Background = styled.ImageBackground`
 export const Button = styled.Button`
   justify-content: center;
   background-color: ${theme.colors.azul_3};
-  height: 42px;
-  width: 200px;
+  height: ${ms(40)}px;
+  width: ${ms(200)}px;
 `;
 export const Title = styled.Text`
   font-size: ${ms(19)}px;
