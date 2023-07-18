@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Cuidadus2",
-    "slug": "Cuidadus2",
+    "name": "Cuidadus",
+    "slug": "Cuidadus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vitorocara.Cuidadus2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2331785b-bd4d-44e6-bbeb-5a34a320eebb"
+      }
     }
   }
 }
