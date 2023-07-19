@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Background,
   Container,
@@ -14,7 +14,7 @@ import Roleta2 from "../../../assets/Roleta02.png";
 import { BoxContent, BoxSlider, BtnInit, Content, TextBtn } from "./styles";
 import Carousel from "react-native-snap-carousel";
 import { BottonBar } from "../../components/BottomBar";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { QuestProps, data } from "../QuestList";
 
 export type Item = {
@@ -35,11 +35,13 @@ const PerguntaTematica = () => {
   const navigation = useNavigation();
   const [randomItems, setRandomItems] = useState<QuestProps[]>([]);
 
-  useEffect(() => {
-    const shuffledData = shuffle(data);
-    const selectedItems = shuffledData.slice(0, 10);
-    setRandomItems(selectedItems);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const shuffledData = shuffle(data);
+      const selectedItems = shuffledData.slice(0, 10);
+      setRandomItems(selectedItems);
+    }, [])
+  );
 
   const shuffle = (array: any[]) => {
     const newArray = [...array];

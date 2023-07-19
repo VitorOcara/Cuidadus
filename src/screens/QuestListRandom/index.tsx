@@ -17,7 +17,12 @@ import {
 import { QuestProps, data } from "../QuestList";
 import Header from "../../components/Header";
 import theme from "../../global/theme";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { ParamList } from "../QuestList/QuestScreen";
 import StatusProgressBar from "../../components/Header/StatusBar";
 import CustomPopup from "../../components/CustonPopUp";
@@ -27,14 +32,30 @@ const QuestListRandom = ({ route }: any) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [selectBtn, setSelectBtn] = useState("");
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const navigation = useNavigation();
 
   console.log(randomItems[currentItemIndex].title);
+  const [acertos, setAcertos] = useState(0);
+  useFocusEffect(
+    React.useCallback(() => {
+      setAcertos(0);
+    }, [])
+  );
 
   const handleNextItem = () => {
     if (currentItemIndex < randomItems.length - 1) {
       setCurrentItemIndex(currentItemIndex + 1);
       setShowPopup(false);
+      setSelectBtn("");
+    } else {
+      navigation.navigate("FinishQuest", { acertos });
     }
+  };
+  const onConfirm = () => {
+    selectBtn === randomItems[currentItemIndex].gabarito
+      ? setAcertos(acertos + 1)
+      : setAcertos(acertos);
+    setShowPopup(true);
   };
 
   const handlePreviousItem = () => {
@@ -91,11 +112,11 @@ const QuestListRandom = ({ route }: any) => {
             </ContentItem>
           </Content>
         </ContentBox>
-        <BtnConfirm onPress={() => setShowPopup(true)}>
+        <BtnConfirm onPress={onConfirm}>
           <BtnText>Confirmar</BtnText>
         </BtnConfirm>
         <BtnSkip onPress={handleNextItem}>
-          <BtnText style={{color: "#1A42A6"}}>Pular</BtnText>
+          <BtnText style={{ color: "#1A42A6" }}>Pular</BtnText>
         </BtnSkip>
 
         <CustomPopup

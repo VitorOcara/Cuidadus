@@ -8,6 +8,7 @@ import ConfigScreen from "../screens/ConfigScreen";
 import QuestList from "../screens/QuestList";
 import QuestListRandom from "../screens/QuestListRandom";
 import QuestScreen from "../screens/QuestList/QuestScreen";
+import FinishQuest from "../screens/QuestListRandom/FinshQuest";
 
 
 
@@ -24,7 +25,7 @@ export default function Routes() {
         <Stack.Screen name="QuestList" component={QuestList} />
         <Stack.Screen name="QuestListRandom" component={QuestListRandom} />
         <Stack.Screen name="QuestScreen" component={QuestScreen} />
-
+        <Stack.Screen name="FinishQuest" component={FinishQuest} />
 
 
       </Stack.Navigator>
