@@ -2,34 +2,38 @@ import React, { useState, useEffect } from "react";
 
 import { Background, Container } from "../../global/styles";
 import Img from "../../../assets/Sobre.png";
-import { Content, ContentBox, ContentMapBox } from "./styles";
+import {
+  BtnConfirm,
+  BtnSkip,
+  BtnText,
+  Content,
+  ContentBox,
+  ContentDesc,
+  ContentItem,
+  ContentMapBox,
+  ContentText,
+  ItemText,
+} from "./styles";
 import { QuestProps, data } from "../QuestList";
+import Header from "../../components/Header";
+import theme from "../../global/theme";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { ParamList } from "../QuestList/QuestScreen";
+import StatusProgressBar from "../../components/Header/StatusBar";
+import CustomPopup from "../../components/CustonPopUp";
 
-const QuestListRandom = () => {
-
-  const [randomItems, setRandomItems] = useState<QuestProps[]>([]);
+const QuestListRandom = ({ route }: any) => {
+  const { randomItems } = route.params;
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
+  const [selectBtn, setSelectBtn] = useState("");
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
-  
-  useEffect(() => {
-    const shuffledData = shuffle(data);
-    const selectedItems = shuffledData.slice(0, 10);
-    setRandomItems(selectedItems);
-  }, []);
+  console.log(randomItems[currentItemIndex].title);
 
-  const shuffle = (array: any[]) => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  };
-
-  
   const handleNextItem = () => {
     if (currentItemIndex < randomItems.length - 1) {
       setCurrentItemIndex(currentItemIndex + 1);
+      setShowPopup(false);
     }
   };
 
@@ -41,14 +45,76 @@ const QuestListRandom = () => {
 
   return (
     <Container>
+      <Header
+        background="None"
+        icons={true}
+        statusbar={true}
+        index={currentItemIndex + 1}
+      />
       <Background source={Img}>
-        <Content>
-          {randomItems.map((item, index) => (
-            <ContentMapBox>
+        <ContentBox>
+          <Content>
+            <ContentText>
+              <ContentDesc style={{ fontFamily: "Inter_700Bold" }}>
+                {randomItems[currentItemIndex].title}
+              </ContentDesc>
+              <ContentDesc style={{ fontFamily: "Inter_400Regular" }}>
+                {randomItems[currentItemIndex].subTitle}
+              </ContentDesc>
+            </ContentText>
+            <ContentItem
+              onPress={() => setSelectBtn("A")}
+              style={{
+                backgroundColor:
+                  selectBtn === "A" ? theme.colors.azul_2 : "#0c74b0",
+              }}
+            >
+              <ItemText>{randomItems[currentItemIndex].item_A}</ItemText>
+            </ContentItem>
+            <ContentItem
+              onPress={() => setSelectBtn("B")}
+              style={{
+                backgroundColor:
+                  selectBtn === "B" ? theme.colors.azul_2 : "#0c74b0",
+              }}
+            >
+              <ItemText>{randomItems[currentItemIndex].item_B}</ItemText>
+            </ContentItem>
+            <ContentItem
+              onPress={() => setSelectBtn("C")}
+              style={{
+                backgroundColor:
+                  selectBtn === "C" ? theme.colors.azul_2 : "#0c74b0",
+              }}
+            >
+              <ItemText>{randomItems[currentItemIndex].item_C}</ItemText>
+            </ContentItem>
+          </Content>
+        </ContentBox>
+        <BtnConfirm onPress={() => setShowPopup(true)}>
+          <BtnText>Confirmar</BtnText>
+        </BtnConfirm>
+        <BtnSkip onPress={handleNextItem}>
+          <BtnText style={{color: "#1A42A6"}}>Pular</BtnText>
+        </BtnSkip>
 
-            </ContentMapBox>
-          ))}
-        </Content>
+        <CustomPopup
+          visible={showPopup}
+          type={
+            selectBtn !== randomItems[currentItemIndex].gabarito
+              ? "error"
+              : "success"
+          }
+          message={
+            selectBtn !== randomItems[currentItemIndex].gabarito
+              ? "Que pena você errou :("
+              : "Muito bem! Você acertou :)"
+          }
+          correcao={randomItems[currentItemIndex].correcao}
+          onClose={() => setShowPopup(false)}
+          nextButton={true}
+          onSkip={handleNextItem}
+        />
       </Background>
     </Container>
   );

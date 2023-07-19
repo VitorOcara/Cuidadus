@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Background,
   Container,
@@ -15,6 +15,7 @@ import { BoxContent, BoxSlider, BtnInit, Content, TextBtn } from "./styles";
 import Carousel from "react-native-snap-carousel";
 import { BottonBar } from "../../components/BottomBar";
 import { useNavigation } from "@react-navigation/native";
+import { QuestProps, data } from "../QuestList";
 
 export type Item = {
   key: number;
@@ -28,11 +29,26 @@ export type Props = {
 
 const PerguntaTematica = () => {
   const width = Dimensions.get("screen").width;
-
   const carouselRef = useRef(null);
   const [numberDot, setNumberDot] = useState(1);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const navigation = useNavigation();
+  const [randomItems, setRandomItems] = useState<QuestProps[]>([]);
+
+  useEffect(() => {
+    const shuffledData = shuffle(data);
+    const selectedItems = shuffledData.slice(0, 10);
+    setRandomItems(selectedItems);
+  }, []);
+
+  const shuffle = (array: any[]) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
   const slides = [
     {
@@ -101,7 +117,7 @@ const PerguntaTematica = () => {
                   navigation.navigate("QuestList");
                 } else {
                   // Redirecionar para a tela "QuestList"
-                  navigation.navigate("QuestListRandom");
+                  navigation.navigate("QuestListRandom", {randomItems});
 
                 }}}
             >

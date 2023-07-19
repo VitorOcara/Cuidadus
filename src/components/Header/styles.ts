@@ -4,7 +4,7 @@ import theme from "../../global/theme";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export const HeaderContent = styled.View<{
-  background: "Blue" | "Gray";
+  background: "Blue" | "Gray" | "None";
 }>`
   width: 100%;
   flex-direction: row;

@@ -14,11 +14,7 @@ import {
 import { RouteProp, useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import theme from "../../../global/theme";
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_700Bold,
-} from "@expo-google-fonts/inter";
+
 import CustomPopup from "../../../components/CustonPopUp";
 
 export type ParamList = {
@@ -46,7 +42,7 @@ const QuestScreen = () => {
 
   return (
     <Container>
-      <Header background="Gray" icons={true} />
+      <Header statusbar={false} background="Gray" icons={true} />
       <Background source={Img}>
         <Content>
           <ContentBox>

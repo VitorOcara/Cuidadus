@@ -11,11 +11,10 @@ export const Content = styled.View`
   align-items: center;
 `;
 
-
 export const ContentBox = styled(Card)`
   align-items: center;
   background-color: #effbfa;
-  height: ${ms(500)}px;
+  min-height: ${ms(500)}px;
   width: ${widthScreen / 1.2};
   border-radius: ${ms(20)}px;
 `;

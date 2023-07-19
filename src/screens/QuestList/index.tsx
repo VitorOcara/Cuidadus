@@ -323,7 +323,7 @@ const QuestList = () => {
 
   return (
     <Container>
-      <Header background="Blue" title="Perguntas Temáticas" icons />
+      <Header statusbar={false} background="Blue" title="Perguntas Temáticas" icons />
       <Background source={Img}>
         <Content>
           <SeachView>

@@ -18,6 +18,7 @@ interface CustomPopupProps {
   message: string;
   nextButton: boolean;
   onClose: () => void;
+  onSkip?: () => void;
 }
 
 const CustomPopup: FC<CustomPopupProps> = ({
@@ -27,6 +28,7 @@ const CustomPopup: FC<CustomPopupProps> = ({
   onClose,
   correcao,
   nextButton,
+  onSkip,
 }) => {
   if (!visible) {
     return null;
@@ -70,13 +72,17 @@ const CustomPopup: FC<CustomPopupProps> = ({
         </VoidPopUp>
 
         {nextButton === true ? (
-          <BtnNext style={{ backgroundColor: "#028B4C" }}>
+          <BtnNext
+            onPress={onSkip}
+            style={{
+              backgroundColor: type === "success" ? "#028B4C" : "#DF432D",
+            }}
+          >
             <Message style={{ color: "#ffffff" }}>Próxima</Message>
           </BtnNext>
         ) : (
           <></>
         )}
-        
       </PopupContainer>
     </Overlay>
   );
