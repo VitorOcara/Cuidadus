@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { useNavigation } from "@react-navigation/native";
+import { useUserContext } from "./UserContext";
+import * as ImagePicker from 'expo-image-picker';
 
 import Img from "../../../assets/background.png";
 import Img2 from "../../../assets/background2.png";
@@ -26,6 +28,9 @@ import { BTTT, Content, TextBtn } from "./styles";
 
 const Home = () => {
   const navigation = useNavigation();
+  // const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useUserContext();
+  const [userImage, setUserImage] = useUserContext();
 
   let [fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -64,11 +69,12 @@ const Home = () => {
             <Picture
               source={Perfil}
               resizeMode="cover"
-              style={{ margin: 20 }} 
+              style={{ margin: 20 }}
             />
             <TextBox
               placeholder="Digite seu Nome"
               style={{ justifyContent: "center", alignItems: "center" }}
+              onChangeText={(text) => setUserName(text)}
             />
           </Content>
           <BTTT onPress={() => navigation.navigate("PerguntaTematica")}>

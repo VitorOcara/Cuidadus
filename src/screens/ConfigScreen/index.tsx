@@ -1,17 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import { Background, Container } from "../../global/styles";
 import Img from "../../../assets/Sobre.png";
 import { BottonBar } from "../../components/BottomBar";
-import { Content, ContentBox } from "./styles";
+import {
+  Content,
+  ContentBox,
+  ElementBox,
+  Icon,
+  Ionicon,
+  ProfileImage,
+  ProfileImageView,
+  SliderContainer,
+  StyledSlider,
+  TextBox,
+} from "./styles";
 import Header from "../../components/Header";
+import { VoidPopUp } from "../../components/CustonPopUp/styles";
+import { useUserContext } from "../Home/UserContext";
 
 const ConfigScreen = () => {
+  const userName = useUserContext();
+  const [volume, setVolume] = useState(0.5);
+  const [sfx, setSfx] = useState(0.5);
+
+  const handleVolumeChange = (value: number) => {
+    setVolume(value);
+  };
+  const handleVolumeChangeSFX = (value: number) => {
+    setSfx(value);
+  };
+
   return (
     <Container>
-      <Header background="Blue" title="Cuidadus" />
+      <Header statusbar={false} background="Blue" title="Cuidadus" />
       <Background source={Img}>
         <Content>
-          <ContentBox></ContentBox>
+          <ProfileImageView>
+            <ProfileImage></ProfileImage>
+            <TextBox>{userName}</TextBox>
+          </ProfileImageView>
+          <ContentBox>
+            <TextBox>Música</TextBox>
+            <ElementBox>
+              <Ionicon name="musical-note" />
+              <SliderContainer>
+                <StyledSlider
+                  minimumValue={0}
+                  maximumValue={1}
+                  value={volume}
+                  onValueChange={handleVolumeChange}
+                />
+              </SliderContainer>
+            </ElementBox>
+
+            <TextBox style={{marginTop: 25}} >Efeitos Sonoros</TextBox>
+            <ElementBox>
+              <Icon name="sound" />
+              <SliderContainer>
+                <StyledSlider
+                  minimumValue={0}
+                  maximumValue={1}
+                  value={sfx}
+                  onValueChange={handleVolumeChangeSFX}
+                />
+              </SliderContainer>
+            </ElementBox>
+          </ContentBox>
+          <VoidPopUp />
         </Content>
       </Background>
       <BottonBar screen="Config" />

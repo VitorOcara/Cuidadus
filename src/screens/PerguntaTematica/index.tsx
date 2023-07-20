@@ -14,13 +14,12 @@ import Roleta2 from "../../../assets/Roleta02.png";
 import { BoxContent, BoxSlider, BtnInit, Content, TextBtn } from "./styles";
 import Carousel from "react-native-snap-carousel";
 import { BottonBar } from "../../components/BottomBar";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect, useRoute } from "@react-navigation/native";
 import { QuestProps, data } from "../QuestList";
 
 export type Item = {
   key: number;
   component: any;
-
 };
 export type Props = {
   // eslint-disable-next-line react/no-unused-prop-types
@@ -28,6 +27,7 @@ export type Props = {
 };
 
 const PerguntaTematica = () => {
+
   const width = Dimensions.get("screen").width;
   const carouselRef = useRef(null);
   const [numberDot, setNumberDot] = useState(1);
@@ -76,16 +76,15 @@ const PerguntaTematica = () => {
       ),
     },
   ];
-  console.log(activeSlideIndex)
+  console.log(activeSlideIndex);
 
   const renderItem = ({ item }) => {
     return item.component;
   };
 
-
-  const onSnap = ( index: number ) =>{
+  const onSnap = (index: number) => {
     setActiveSlideIndex(index);
-  }
+  };
   // const onBefor = ( index ) =>{
   //   console.log(index);
   //   setActiveSlideIndex(index);
@@ -106,9 +105,8 @@ const PerguntaTematica = () => {
               data={slides}
               sliderWidth={width}
               itemWidth={width / 1.6}
-              renderItem={({ item }) => renderItem({ item  })}
+              renderItem={({ item }) => renderItem({ item })}
               onSnapToItem={(index) => onSnap(index)}
-              
             />
 
             <BtnInit
@@ -119,16 +117,16 @@ const PerguntaTematica = () => {
                   navigation.navigate("QuestList");
                 } else {
                   // Redirecionar para a tela "QuestList"
-                  navigation.navigate("QuestListRandom", {randomItems});
-
-                }}}
+                  navigation.navigate("QuestListRandom", { randomItems });
+                }
+              }}
             >
               <TextBtn>Iniciar</TextBtn>
             </BtnInit>
           </BoxContent>
         </Content>
       </Background>
-      <BottonBar screen="Tematica" />
+      <BottonBar screen="Tematica"  />
     </Container>
   );
 };

@@ -4,11 +4,12 @@ import Img from "../../../assets/Sobre.png";
 import { BottonBar } from "../../components/BottomBar";
 import { Content, ContentBox, ContentText, TitleText } from "./styles";
 import Header from "../../components/Header";
+import { useRoute } from "@react-navigation/native";
 
 const About = () => {
   return (
     <Container>
-      <Header background="Blue" title="Cuidadus" />
+      <Header statusbar={false} background="Blue" title="Cuidadus" />
       <Background source={Img}>
         <Content>
           <ContentBox>
