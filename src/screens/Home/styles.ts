@@ -31,3 +31,5 @@ export const BTTT = styled.TouchableOpacity`
   margin-bottom: ${ms(200)}px;
 `;
 
+export const BtnTeste = styled.TouchableOpacity``;
+export const TexTeste = styled.Text``;

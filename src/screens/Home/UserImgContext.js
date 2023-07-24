@@ -1,22 +1,21 @@
 import React, { createContext, useContext, useState } from 'react';
 
 // Crie o contexto do usuário
-const UserContext = createContext();
+const ImgContext = createContext();
 
-export const UserProvider = ({ children }) => {
-  const [userName, setUserName] = useState('');
+export const ImgProvider = ({ children }) => {
   const [userImage, setUserImage] = useState(null);
 
   return (
-    <UserContext.Provider value={[ userName, setUserName ]}>
+    <ImgContext.Provider value={[ userImage, setUserImage ]}>
       {children}
-    </UserContext.Provider>
+    </ImgContext.Provider>
   );
 };
 
 // Crie um hook personalizado para usar o contexto
-export const useUserContext = () => {
-  const context = useContext(UserContext);
+export const useImgContext = () => {
+  const context = useContext(ImgContext);
   if (!context) {
     throw new Error('useUserContext deve ser usado dentro de um UserProvider');
   }

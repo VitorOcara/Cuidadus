@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { useNavigation } from "@react-navigation/native";
 import { useUserContext } from "./UserContext";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import { Image } from "react-native";
 
 import Img from "../../../assets/background.png";
 import Img2 from "../../../assets/background2.png";
@@ -24,13 +25,37 @@ import {
   Title,
 } from "../../global/styles";
 
-import { BTTT, Content, TextBtn } from "./styles";
+import { BTTT, BtnTeste, Content, TexTeste, TextBtn } from "./styles";
+import { useImgContext } from "./userImgContext";
 
 const Home = () => {
   const navigation = useNavigation();
   // const [userName, setUserName] = useState("");
   const [userName, setUserName] = useUserContext();
-  const [userImage, setUserImage] = useUserContext();
+  const [userImage, setUserImage] = useImgContext();
+  const [image, setImage] = useState();
+
+  const pickImage = async () => {
+    // Request permission to access the image library
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return;
+    }
+
+    // Launch the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setUserImage(result.assets[0].uri);
+    }
+  };
 
   let [fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -40,6 +65,7 @@ const Home = () => {
   if (!fontsLoaded) {
     return null;
   }
+  console.log(userImage);
 
   const slides = [
     {
@@ -66,11 +92,22 @@ const Home = () => {
           </Title>
 
           <Content>
-            <Picture
-              source={Perfil}
-              resizeMode="cover"
-              style={{ margin: 20 }}
-            />
+            <BtnTeste onPress={pickImage}>
+              {image === undefined ? (
+                <Picture
+                  source={Perfil}
+                  resizeMode="cover"
+                  style={{ margin: 20 }}
+                />
+              ) : (
+                <Image
+                source={{ uri: image }}
+                resizeMode="cover"
+                style={{ margin: 20, minHeight: 200, minWidth: 200 }}
+              />
+              )}
+            </BtnTeste>
+
             <TextBox
               placeholder="Digite seu Nome"
               style={{ justifyContent: "center", alignItems: "center" }}

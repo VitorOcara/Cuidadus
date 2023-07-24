@@ -1,10 +1,13 @@
 import Routes from "./src/routes";
 import { UserProvider } from "./src/screens/Home/UserContext";
+import { ImgProvider } from "./src/screens/Home/userImgContext";
 
 export default function App() {
   return (
-    <UserProvider>
-      <Routes />
-    </UserProvider>
+    <ImgProvider>
+      <UserProvider>
+        <Routes />
+      </UserProvider>
+    </ImgProvider>
   );
 }

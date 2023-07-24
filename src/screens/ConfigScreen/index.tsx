@@ -17,9 +17,12 @@ import {
 import Header from "../../components/Header";
 import { VoidPopUp } from "../../components/CustonPopUp/styles";
 import { useUserContext } from "../Home/UserContext";
+import { useImgContext } from "../Home/userImgContext";
+import { Image } from "react-native";
 
 const ConfigScreen = () => {
   const userName = useUserContext();
+  const userImage = useImgContext();
   const [volume, setVolume] = useState(0.5);
   const [sfx, setSfx] = useState(0.5);
 
@@ -36,7 +39,9 @@ const ConfigScreen = () => {
       <Background source={Img}>
         <Content>
           <ProfileImageView>
-            <ProfileImage></ProfileImage>
+            <ProfileImage>
+              {/* <Image source={userImage} /> */}
+            </ProfileImage>
             <TextBox>{userName}</TextBox>
           </ProfileImageView>
           <ContentBox>
