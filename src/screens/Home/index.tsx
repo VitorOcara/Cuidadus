@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { useNavigation } from "@react-navigation/native";
 import { useUserContext } from "./UserContext";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
-
 import Img from "../../../assets/background.png";
 import Img2 from "../../../assets/background2.png";
 import Perfil from "../../../assets/perfil.png";
@@ -26,24 +25,28 @@ import {
 } from "../../global/styles";
 
 import { BTTT, BtnTeste, Content, TexTeste, TextBtn } from "./styles";
-import { useImgContext } from "./userImgContext";
+import { dbStorage } from "../../FirebaseConfig/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import ImageContext from "./ImageContext";
 
 const Home = () => {
   const navigation = useNavigation();
   // const [userName, setUserName] = useState("");
   const [userName, setUserName] = useUserContext();
-  const [userImage, setUserImage] = useImgContext();
-  const [image, setImage] = useState();
+  const [image1, setImage1] = useState();
+  const [acessible, setAcessible] = useState(true);
+  const { image, setImage } = useContext(ImageContext);
 
   const pickImage = async () => {
-    // Request permission to access the image library
+    // Request permission to access the image1 library
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to make this work!");
       return;
     }
+    // Add a new document in collection "cities" with ID 'LA'
 
-    // Launch the image library
+    // Launch the image1 library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -52,8 +55,13 @@ const Home = () => {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setUserImage(result.assets[0].uri);
+      setImage1(result.assets[0].uri);
+      let item = result.assets[0];
+      setImage(item.uri);
+      setAcessible(false);
+      // await addDoc(collection(dbStorage, "Perfil"),{
+      //   item,
+      // })
     }
   };
 
@@ -65,7 +73,6 @@ const Home = () => {
   if (!fontsLoaded) {
     return null;
   }
-  console.log(userImage);
 
   const slides = [
     {
@@ -93,7 +100,7 @@ const Home = () => {
 
           <Content>
             <BtnTeste onPress={pickImage}>
-              {image === undefined ? (
+              {image1 === undefined ? (
                 <Picture
                   source={Perfil}
                   resizeMode="cover"
@@ -101,10 +108,10 @@ const Home = () => {
                 />
               ) : (
                 <Image
-                source={{ uri: image }}
-                resizeMode="cover"
-                style={{ margin: 20, minHeight: 200, minWidth: 200 }}
-              />
+                  source={{ uri: image1 }}
+                  resizeMode="cover"
+                  style={{ margin: 20, minHeight: 200, minWidth: 200 }}
+                />
               )}
             </BtnTeste>
 
@@ -114,7 +121,10 @@ const Home = () => {
               onChangeText={(text) => setUserName(text)}
             />
           </Content>
-          <BTTT onPress={() => navigation.navigate("PerguntaTematica")}>
+          <BTTT
+            disabled={acessible}
+            onPress={() => navigation.navigate("PerguntaTematica")}
+          >
             <TextBtn style={{ fontFamily: "Inter_400Regular" }}>
               Proximo
             </TextBtn>

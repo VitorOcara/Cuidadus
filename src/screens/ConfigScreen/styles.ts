@@ -38,6 +38,12 @@ export const TextBox = styled.Text`
   font-family: ${theme.fonts.comfortaa_Bold};
   font-size: ${ms(15)}px;
 `;
+export const TextInputBox = styled.TextInput`
+  font-family: ${theme.fonts.comfortaa_Bold};
+  font-size: ${ms(15)}px;
+`;
+
+export const BtnVoid = styled.TouchableOpacity``;
 
 export const Icon = styled(AntDesign)`
   font-size: ${ms(30)}px;
@@ -52,10 +58,10 @@ export const Ionicon = styled(Ionicons)`
 `;
 
 export const ProfileImage = styled.View`
-  height: ${ms(80)}px;
-  width: ${ms(80)}px;
-  border-radius: ${ms(40)}px;
+  border-radius: ${ms(45)}px;
   border: ${theme.colors.azul_2} solid ${ms(2)}px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ProfileImageView = styled.View`
