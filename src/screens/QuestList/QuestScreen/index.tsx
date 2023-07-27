@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Background, Container } from "../../../global/styles";
 import Img from "../../../../assets/Sobre.png";
 import {
   BtnConfirm,
+  BtnConfirm2,
   BtnText,
   Content,
   ContentBox,
@@ -14,8 +15,9 @@ import {
 import { RouteProp, useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import theme from "../../../global/theme";
-
 import CustomPopup from "../../../components/CustonPopUp";
+import { useAppContext } from "../../ConfigScreen/VolumeContext";
+import { Audio } from "expo-av";
 
 export type ParamList = {
   Object: {
@@ -36,9 +38,53 @@ const QuestScreen = () => {
     params: { Quest },
   } = useRoute<RouteProp<ParamList, "Object">>();
 
+  const { volume, setVolume, sfx, setSfx } = useAppContext();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const soundObject = new Audio.Sound();
   const [selectBtn, setSelectBtn] = useState("");
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
+  useEffect(() => {
+    const setInitialVolume = async () => {
+      await soundObject.setVolumeAsync(sfx);
+    };
+    setInitialVolume();
+  }, []);
+
+  const playAcerto = async () => {
+    try {
+      if (!isPlaying) {
+        await soundObject.loadAsync(require("../../../../assets/acerto.mp3"));
+        await soundObject.playAsync();
+        setIsPlaying(true);
+        console.log("acertou");
+      }
+    } catch (error) {
+      console.log("Erro ao reproduzir o áudio:", error);
+    }
+  };
+  const playErro = async () => {
+    try {
+      if (!isPlaying) {
+        await soundObject.loadAsync(require("../../../../assets/erro.mp3"));
+        await soundObject.playAsync();
+        setIsPlaying(true);
+        console.log("errou");
+      }
+    } catch (error) {
+      console.log("Erro ao reproduzir o áudio:", error);
+    }
+  };
+  const handlePress = async () => {
+    if(selectBtn === Quest.gabarito){
+      await playAcerto();
+      console.log("acertou");
+    }else{
+      await playErro();
+      console.log("errou");
+    }
+    setShowPopup(true); // Ação original definida no onPress
+  };
 
   return (
     <Container>
@@ -83,22 +129,22 @@ const QuestScreen = () => {
             </ContentItem>
           </ContentBox>
 
-          <BtnConfirm
-            onPress={() => setShowPopup(true)}
-          >
-            <BtnText>Confirmar</BtnText>
+          <BtnConfirm onPress={handlePress}>
+              <BtnText>Confirmar</BtnText>
           </BtnConfirm>
-
-         
         </Content>
-          <CustomPopup
-            visible={showPopup}
-            type={selectBtn !== Quest.gabarito ? "error" : "success"}
-            message={selectBtn !== Quest.gabarito ? "Que pena você errou :(" : "Muito bem! Você acertou :)"}
-            correcao={Quest.correcao}
-            onClose={() => setShowPopup(false)}
-            nextButton={false}
-          />
+        <CustomPopup
+          visible={showPopup}
+          type={selectBtn !== Quest.gabarito ? "error" : "success"}
+          message={
+            selectBtn !== Quest.gabarito
+              ? "Que pena você errou :("
+              : "Muito bem! Você acertou :)"
+          }
+          correcao={Quest.correcao}
+          onClose={() => setShowPopup(false)}
+          nextButton={false}
+        />
       </Background>
     </Container>
   );

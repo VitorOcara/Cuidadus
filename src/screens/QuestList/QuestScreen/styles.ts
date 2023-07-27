@@ -56,6 +56,9 @@ export const BtnConfirm = styled.TouchableOpacity`
   width: ${ms(200)}px;
   margin-top: ${ms(20)}px;
 `;
+export const BtnConfirm2 = styled.TouchableOpacity`
+ 
+`;
 export const BtnText = styled.Text`
   color: white;
   font-size: ${ms(14)}px;
