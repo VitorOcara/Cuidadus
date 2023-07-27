@@ -23,6 +23,7 @@ import { useUserContext } from "../Home/UserContext";
 import { Image } from "react-native";
 import Perfil from "../../../assets/perfil.png";
 import ImageContext from "../Home/ImageContext";
+import { useAppContext } from "./VolumeContext";
 // import { imgTeste } from "../Home/teste";
 
 const ConfigScreen = () => {
@@ -45,8 +46,7 @@ const ConfigScreen = () => {
   };
 
   const [userName, setUserName] = useUserContext();
-  const [volume, setVolume] = useState(0.5);
-  const [sfx, setSfx] = useState(0.5);
+  const { volume, setVolume, sfx, setSfx } = useAppContext();
   const { image, setImage } = useContext(ImageContext);
 
   const handleVolumeChange = (value: number) => {
