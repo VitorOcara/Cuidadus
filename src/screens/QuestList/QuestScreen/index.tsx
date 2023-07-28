@@ -12,7 +12,7 @@ import {
   ContentText,
   ItemText,
 } from "./styles";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import theme from "../../../global/theme";
 import CustomPopup from "../../../components/CustonPopUp";
@@ -38,7 +38,8 @@ const QuestScreen = () => {
     params: { Quest },
   } = useRoute<RouteProp<ParamList, "Object">>();
 
-  const { volume, setVolume, sfx, setSfx } = useAppContext();
+  const navigation = useNavigation();
+  const { sfx } = useAppContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const soundObject = new Audio.Sound();
   const [selectBtn, setSelectBtn] = useState("");
@@ -78,13 +79,15 @@ const QuestScreen = () => {
   const handlePress = async () => {
     if(selectBtn === Quest.gabarito){
       await playAcerto();
-      console.log("acertou");
     }else{
       await playErro();
-      console.log("errou");
     }
     setShowPopup(true); // Ação original definida no onPress
   };
+  const onClose = () =>{
+    setShowPopup(false);
+    navigation.navigate("QuestList");
+  }
 
   return (
     <Container>
@@ -142,7 +145,7 @@ const QuestScreen = () => {
               : "Muito bem! Você acertou :)"
           }
           correcao={Quest.correcao}
-          onClose={() => setShowPopup(false)}
+          onClose={onClose}
           nextButton={false}
         />
       </Background>
