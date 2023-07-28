@@ -25,8 +25,7 @@ import {
 } from "../../global/styles";
 
 import { BTTT, BtnTeste, Content, TexTeste, TextBtn } from "./styles";
-import { dbStorage } from "../../FirebaseConfig/firebase";
-import { addDoc, collection } from "firebase/firestore";
+
 import ImageContext from "./ImageContext";
 
 const Home = () => {
