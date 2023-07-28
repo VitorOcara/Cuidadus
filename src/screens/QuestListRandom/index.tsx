@@ -30,7 +30,6 @@ const QuestListRandom = ({ route }: any) => {
   const soundObject = new Audio.Sound();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  console.log(randomItems[currentItemIndex].title);
   const [acertos, setAcertos] = useState(0);
   useFocusEffect(
     React.useCallback(() => {
@@ -48,7 +47,7 @@ const QuestListRandom = ({ route }: any) => {
   const playAcerto = async () => {
     try {
       if (!isPlaying) {
-        await soundObject.loadAsync(require("../../../../assets/acerto.mp3"));
+        await soundObject.loadAsync(require("../../../assets/acerto.mp3"));
         await soundObject.playAsync();
         setIsPlaying(true);
         console.log("acertou");
@@ -60,7 +59,7 @@ const QuestListRandom = ({ route }: any) => {
   const playErro = async () => {
     try {
       if (!isPlaying) {
-        await soundObject.loadAsync(require("../../../../assets/erro.mp3"));
+        await soundObject.loadAsync(require("../../../assets/erro.mp3"));
         await soundObject.playAsync();
         setIsPlaying(true);
         console.log("errou");

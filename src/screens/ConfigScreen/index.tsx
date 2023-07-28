@@ -4,6 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import Img from "../../../assets/Sobre.png";
 import { BottonBar } from "../../components/BottomBar";
 import {
+  BtnSaveChanges,
   BtnVoid,
   Content,
   ContentBox,
@@ -16,6 +17,7 @@ import {
   StyledSlider,
   TextBox,
   TextInputBox,
+  TextSaveChanges,
 } from "./styles";
 import Header from "../../components/Header";
 import { VoidPopUp } from "../../components/CustonPopUp/styles";
@@ -24,9 +26,12 @@ import { Image } from "react-native";
 import Perfil from "../../../assets/perfil.png";
 import ImageContext from "../Home/ImageContext";
 import { useAppContext } from "./VolumeContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { imgTeste } from "../Home/teste";
 
 const ConfigScreen = () => {
+  const [isModified, setIsModified] = useState(false);
+
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -42,6 +47,18 @@ const ConfigScreen = () => {
     if (!result.canceled) {
       let item = result.assets[0];
       setImage(item.uri);
+      setIsModified(true);
+    }
+  };
+
+  const saveData = async () => {
+    try {
+      // Salvar userName e image no AsyncStorage como um objeto JSON
+      const data = { userName, image };
+      await AsyncStorage.setItem("userData", JSON.stringify(data));
+      console.log("Dados salvos com sucesso!");
+    } catch (error) {
+      console.log("Erro ao salvar dados:", error);
     }
   };
 
@@ -55,7 +72,14 @@ const ConfigScreen = () => {
   const handleVolumeChangeSFX = (value: number) => {
     setSfx(value);
   };
-
+  const handleUserNameChange = (text: string) => {
+    setUserName(text);
+    setIsModified(true); // Salvar o userName sempre que houver uma alteração
+  };
+  const handleSalveChange = async () => {
+    await saveData();
+    setIsModified(false);
+  };
   return (
     <Container>
       <Header statusbar={false} background="Blue" title="Cuidadus" />
@@ -78,9 +102,20 @@ const ConfigScreen = () => {
 
             <TextInputBox
               value={userName}
-              onChangeText={(text) => setUserName(text)}
+              onChangeText={(text) => handleUserNameChange(text)}
             />
           </ProfileImageView>
+
+          <BtnSaveChanges
+            disabled={!isModified}
+            background={isModified === true ? "Blue" : "Gray"}
+            onPress={handleSalveChange}
+          >
+            <TextSaveChanges color={isModified === true ? "White" : "Gray"}>
+              Salvar alterações
+            </TextSaveChanges>
+          </BtnSaveChanges>
+
           <ContentBox>
             <TextBox>Música</TextBox>
             <ElementBox>

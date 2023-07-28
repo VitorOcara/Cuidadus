@@ -45,6 +45,25 @@ export const TextInputBox = styled.TextInput`
 
 export const BtnVoid = styled.TouchableOpacity``;
 
+export const TextSaveChanges = styled.Text<{
+  color: "White" | "Gray";
+}>`
+  font-family: ${theme.fonts.comfortaa_Bold};
+  font-size: ${ms(12)}px;
+  color: ${({ color }) => (color === "White" ? "white" : "black")};
+`;
+
+export const BtnSaveChanges = styled.TouchableOpacity<{
+  background: "Blue" | "Gray";
+}>`
+  font-family: ${theme.fonts.comfortaa_Bold};
+
+  background-color: ${({ background }) =>
+    background === "Blue" ? theme.colors.azul_2 : theme.colors.dark_gray};
+  padding: ${ms(10)}px;
+  border-radius: ${ms(5)}px;
+`;
+
 export const Icon = styled(AntDesign)`
   font-size: ${ms(30)}px;
   color: ${theme.colors.azul_2};

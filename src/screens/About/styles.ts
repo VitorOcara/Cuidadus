@@ -3,11 +3,10 @@ import styled from "styled-components/native";
 
 import theme from "../../global/theme";
 
-export const Content = styled.View`
+export const Content = styled.ScrollView`
   flex: 1;
-  justify-content: space-between;
 `;
-export const ContentBox = styled.ScrollView`
+export const ContentBox = styled.View`
   padding: ${ms(20)}px;
 `;
 
