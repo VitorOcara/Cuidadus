@@ -30,6 +30,8 @@ import { BTTT, BtnTeste, Content, TexTeste, TextBtn } from "./styles";
 
 import ImageContext from "./ImageContext";
 import theme from "../../global/theme";
+import { useAppContext } from "../ConfigScreen/VolumeContext";
+import { Audio } from "expo-av";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -37,7 +39,10 @@ const Home = () => {
   const [image1, setImage1] = useState();
   const [acessible, setAcessible] = useState(true);
   const { image, setImage } = useContext(ImageContext);
-  const [isLoaded, setIsLoaded] = useState(false); 
+  const [isLoaded, setIsLoaded] = useState(false);
+  const soundObject = new Audio.Sound();
+  const { volume } = useAppContext();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useFocusEffect(() => {
     if (!isLoaded) {
@@ -48,7 +53,27 @@ const Home = () => {
 
   useEffect(() => {
     loadData();
+    const setInitialVolume = async () => {
+      await soundObject.setVolumeAsync(volume);
+    };
+    setInitialVolume();
+    playMusic();
+    console.log(volume);
   }, []);
+
+  const playMusic = async () => {
+    try {
+      if (!isPlaying) {
+        await soundObject.loadAsync(require("../../../assets/music.mp3"));
+        await soundObject.setIsLoopingAsync(true);
+        await soundObject.playAsync();
+        setIsPlaying(true);
+        console.log("acertou");
+      }
+    } catch (error) {
+      console.log("Erro ao reproduzir o áudio:", error);
+    }
+  };
 
   const loadData = async () => {
     try {
