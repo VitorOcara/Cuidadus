@@ -14,7 +14,11 @@ import Roleta2 from "../../../assets/Roleta02.png";
 import { BoxContent, BoxSlider, BtnInit, Content, TextBtn } from "./styles";
 import Carousel from "react-native-snap-carousel";
 import { BottonBar } from "../../components/BottomBar";
-import { useNavigation, useFocusEffect, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  useFocusEffect,
+  useRoute,
+} from "@react-navigation/native";
 import { QuestProps, data } from "../QuestList";
 
 export type Item = {
@@ -27,7 +31,6 @@ export type Props = {
 };
 
 const PerguntaTematica = () => {
-
   const width = Dimensions.get("screen").width;
   const carouselRef = useRef(null);
   const [numberDot, setNumberDot] = useState(1);
@@ -56,23 +59,19 @@ const PerguntaTematica = () => {
     {
       key: 1,
       component: (
-        <Container>
-          <BoxSlider>
-            <Picture source={Roleta} />
-            <Title>Tematicas</Title>
-          </BoxSlider>
-        </Container>
+        <BoxSlider>
+          <Picture source={Roleta} />
+          <Title>Tematicas</Title>
+        </BoxSlider>
       ),
     },
     {
       key: 2,
       component: (
-        <Container>
-          <BoxSlider>
-            <Picture source={Roleta2} />
-            <Title>Aleatórias</Title>
-          </BoxSlider>
-        </Container>
+        <BoxSlider>
+          <Picture source={Roleta2} />
+          <Title>Aleatórias</Title>
+        </BoxSlider>
       ),
     },
   ];
@@ -99,6 +98,7 @@ const PerguntaTematica = () => {
           </BoxContent>
           <BoxContent>
             <Carousel
+              style={{ marginTop: 20 }}
               ref={carouselRef}
               indicatorStyle={"default"}
               keyExtractor={(item) => item.key.toString()}
@@ -110,7 +110,6 @@ const PerguntaTematica = () => {
             />
 
             <BtnInit
-              style={{ marginBottom: 200 }}
               onPress={() => {
                 if (activeSlideIndex === 0) {
                   // Redirecionar para uma nova tela
@@ -126,7 +125,7 @@ const PerguntaTematica = () => {
           </BoxContent>
         </Content>
       </Background>
-      <BottonBar screen="Tematica"  />
+      <BottonBar screen="Tematica" />
     </Container>
   );
 };

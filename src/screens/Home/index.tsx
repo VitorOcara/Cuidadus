@@ -41,7 +41,7 @@ const Home = () => {
   const { image, setImage } = useContext(ImageContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const soundObject = new Audio.Sound();
-  const { volume } = useAppContext();
+  const { volume, setVolume, sfx, setSfx } = useAppContext();
   const [isPlaying, setIsPlaying] = useState(false);
 
   useFocusEffect(() => {
@@ -58,7 +58,6 @@ const Home = () => {
     };
     setInitialVolume();
     playMusic();
-    console.log(volume);
   }, []);
 
   const playMusic = async () => {
@@ -81,6 +80,8 @@ const Home = () => {
       if (userDataString !== null) {
         const userData = JSON.parse(userDataString);
         setUserName(userData.userName);
+        setVolume(userData.volume);
+        setSfx(userData.sfx);
         setImage(userData.image);
         setImage1(userData.image);
         console.log(userData.image);
@@ -93,7 +94,7 @@ const Home = () => {
   const saveData = async () => {
     try {
       // Salvar userName e image no AsyncStorage como um objeto JSON
-      const data = { userName, image };
+      const data = { userName, image, volume, sfx };
       await AsyncStorage.setItem("userData", JSON.stringify(data));
       console.log("Dados salvos com sucesso!");
     } catch (error) {

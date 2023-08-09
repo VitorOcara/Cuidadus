@@ -3,18 +3,19 @@ import styled from "styled-components/native";
 import theme from "../../global/theme";
 
 export const Content = styled.View`
-  flex: 1;
 
   justify-content: space-around;
   align-items: center;
   padding-top: ${ms(40)}px;
 `;
 export const BoxContent = styled.View`
+  margin-top: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 export const BoxSlider = styled.View`
+  margin-top: ${ms(30)}px;
   justify-content: center;
   align-items: center;
 `;

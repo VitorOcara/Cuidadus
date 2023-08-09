@@ -7,6 +7,8 @@ import theme from "../../global/theme";
 
 
 const widthScreen = Dimensions.get("screen").width;
+const heightScreen = Dimensions.get("screen").height;
+
 
 export const Content = styled.View`
   justify-content: space-between;
@@ -14,7 +16,7 @@ export const Content = styled.View`
 export const ContentBox = styled(Card)`
   align-items: center;
   background-color: #effbfa;
-  min-height: ${ms(500)}px;
+  min-height: ${heightScreen/2};
   width: ${widthScreen / 1.2};
   border-radius: ${ms(20)}px;
 `;
@@ -36,8 +38,8 @@ export const ContentItem = styled.TouchableOpacity`
   border-radius: ${ms(10)}px;
   justify-content: center;
   align-items: center;
-  width: ${ms(300)}px;
-  height: ${ms(80)}px;
+  width: ${widthScreen / 1.3};
+  min-height: ${ms(70)}px;
   margin: ${ms(10)}px;
 `;
 
@@ -59,7 +61,7 @@ export const BtnConfirm = styled.TouchableOpacity`
   background-color: ${theme.colors.azul_2};
   height: ${ms(42)}px;
   width: ${ms(200)}px;
-  margin-top: ${ms(20)}px;
+  margin-top: ${ms(10)}px;
 `;
 export const BtnText = styled.Text`
   color: white;

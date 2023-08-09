@@ -54,7 +54,7 @@ const ConfigScreen = () => {
   const saveData = async () => {
     try {
       // Salvar userName e image no AsyncStorage como um objeto JSON
-      const data = { userName, image };
+      const data = { userName, image, volume, sfx };
       await AsyncStorage.setItem("userData", JSON.stringify(data));
       console.log("Dados salvos com sucesso!");
     } catch (error) {
@@ -68,9 +68,11 @@ const ConfigScreen = () => {
 
   const handleVolumeChange = (value: number) => {
     setVolume(value);
+    setIsModified(true);
   };
   const handleVolumeChangeSFX = (value: number) => {
     setSfx(value);
+    setIsModified(true);
   };
   const handleUserNameChange = (text: string) => {
     setUserName(text);

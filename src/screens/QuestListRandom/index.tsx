@@ -48,6 +48,7 @@ const QuestListRandom = ({ route }: any) => {
     try {
       if (!isPlaying) {
         await soundObject.loadAsync(require("../../../assets/acerto.mp3"));
+        await soundObject.setVolumeAsync(sfx);
         await soundObject.playAsync();
         setIsPlaying(true);
         console.log("acertou");
@@ -55,11 +56,13 @@ const QuestListRandom = ({ route }: any) => {
     } catch (error) {
       console.log("Erro ao reproduzir o áudio:", error);
     }
+    setIsPlaying(false);
   };
   const playErro = async () => {
     try {
       if (!isPlaying) {
         await soundObject.loadAsync(require("../../../assets/erro.mp3"));
+        await soundObject.setVolumeAsync(sfx);
         await soundObject.playAsync();
         setIsPlaying(true);
         console.log("errou");
@@ -67,6 +70,7 @@ const QuestListRandom = ({ route }: any) => {
     } catch (error) {
       console.log("Erro ao reproduzir o áudio:", error);
     }
+    setIsPlaying(false);
   };
 
   const handleNextItem = () => {

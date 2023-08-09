@@ -12,12 +12,13 @@ import {
   ContentText,
   ItemText,
 } from "./styles";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import theme from "../../../global/theme";
 import CustomPopup from "../../../components/CustonPopUp";
 import { useAppContext } from "../../ConfigScreen/VolumeContext";
 import { Audio } from "expo-av";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type ParamList = {
   Object: {
@@ -39,23 +40,43 @@ const QuestScreen = () => {
   } = useRoute<RouteProp<ParamList, "Object">>();
 
   const navigation = useNavigation();
-  const { sfx } = useAppContext();
+  const { sfx, setSfx } = useAppContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const soundObject = new Audio.Sound();
   const [selectBtn, setSelectBtn] = useState("");
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const setInitialVolume = async () => {
-      await soundObject.setVolumeAsync(sfx);
-    };
-    setInitialVolume();
+    loadData();
   }, []);
+
+  useFocusEffect(() => {
+    if (!isLoaded) {
+      loadData();
+      console.log(sfx);
+      setIsLoaded(true);
+    }
+  });
+
+  const loadData = async () => {
+    try {
+      const userDataString = await AsyncStorage.getItem("userData");
+      if (userDataString !== null) {
+        const userData = JSON.parse(userDataString);
+        setSfx(userData.sfx);
+      }
+    } catch (error) {
+      console.log("Erro ao recuperar dados:", error);
+    }
+  };
+  console.log(sfx);
 
   const playAcerto = async () => {
     try {
       if (!isPlaying) {
         await soundObject.loadAsync(require("../../../../assets/acerto.mp3"));
+        await soundObject.setVolumeAsync(sfx);
         await soundObject.playAsync();
         setIsPlaying(true);
         console.log("acertou");
@@ -63,11 +84,13 @@ const QuestScreen = () => {
     } catch (error) {
       console.log("Erro ao reproduzir o áudio:", error);
     }
+    setIsPlaying(false);
   };
   const playErro = async () => {
     try {
       if (!isPlaying) {
         await soundObject.loadAsync(require("../../../../assets/erro.mp3"));
+        await soundObject.setVolumeAsync(sfx);
         await soundObject.playAsync();
         setIsPlaying(true);
         console.log("errou");
@@ -75,19 +98,21 @@ const QuestScreen = () => {
     } catch (error) {
       console.log("Erro ao reproduzir o áudio:", error);
     }
+    setIsPlaying(false);
   };
   const handlePress = async () => {
-    if(selectBtn === Quest.gabarito){
+    if (selectBtn === Quest.gabarito) {
       await playAcerto();
-    }else{
+    } else {
       await playErro();
     }
     setShowPopup(true); // Ação original definida no onPress
   };
-  const onClose = () =>{
+  const onClose = () => {
     setShowPopup(false);
+    setIsLoaded(false);
     navigation.navigate("QuestList");
-  }
+  };
 
   return (
     <Container>
@@ -133,7 +158,7 @@ const QuestScreen = () => {
           </ContentBox>
 
           <BtnConfirm onPress={handlePress}>
-              <BtnText>Confirmar</BtnText>
+            <BtnText>Confirmar</BtnText>
           </BtnConfirm>
         </Content>
         <CustomPopup
